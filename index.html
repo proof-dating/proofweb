@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proof — Dating, proven.</title>
+  <meta name="description" content="A new kind of dating app. Coming soon to iOS." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: rgba(255,255,255,0.08);
+      --accent: #C94F7C;
+      --accent-dark: #8B1A31;
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.45);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(15,15,15,0.95), transparent);
+      pointer-events: none;
+    }
+    .nav-logo {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,79,124,0.18) 0%, transparent 70%);
+      pointer-events: none;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+    }
+
+    .hero-logo {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 36px;
+    }
+
+    .hero-tagline {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(32px, 5vw, 60px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      max-width: 700px;
+    }
+
+    .hero-sub {
+      position: relative;
+      z-index: 1;
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 48px;
+    }
+
+    .pill {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(201,79,124,0.12);
+      border: 1px solid rgba(201,79,124,0.3);
+      color: #e8889e;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 20px;
+      border-radius: 100px;
+      letter-spacing: 0.01em;
+    }
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #C94F7C;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ── Notify form ── */
+    .notify-wrap {
+      position: relative;
+      z-index: 1;
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .notify-form {
+      display: flex;
+      gap: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 6px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .notify-form input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      padding: 10px 14px;
+    }
+    .notify-form input::placeholder { color: var(--muted); }
+    .notify-form button {
+      background: linear-gradient(135deg, #C94F7C, #8B1A31);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.15s;
+    }
+    .notify-form button:hover { opacity: 0.85; }
+    .notify-hint {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ── Features ── */
+    .features {
+      padding: 100px 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .features-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .features-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      text-align: center;
+      margin-bottom: 64px;
+      line-height: 1.15;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: rgba(201,79,124,0.3); }
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(201,79,124,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .feature-icon svg { width: 22px; height: 22px; }
+    .feature-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .feature-body {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 80px 24px 120px;
+      text-align: center;
+    }
+    .cta-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 64px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(201,79,124,0.12), transparent 60%);
+      pointer-events: none;
+    }
+    .cta-title {
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .cta-sub {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 36px;
+      line-height: 1.6;
+      position: relative;
+    }
+    .cta-form {
+      display: flex;
+      gap: 0;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 6px;
+      position: relative;
+    }
+    .cta-form input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      padding: 10px 14px;
+    }
+    .cta-form input::placeholder { color: var(--muted); }
+    .cta-form button {
+      background: linear-gradient(135deg, #C94F7C, #8B1A31);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 22px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.15s;
+    }
+    .cta-form button:hover { opacity: 0.85; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-copy {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      nav { padding: 20px 24px; }
+      footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .cta-inner { padding: 40px 24px; }
+      .notify-form, .cta-form { flex-direction: column; }
+      .notify-form button, .cta-form button { border-radius: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-logo">
+    <svg width="72" height="31" viewBox="0 0 283 121" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M250.736 94.08V20.352C250.736 14.0373 252.549 9.06666 256.176 5.43999C259.845 1.81333 264.901 0 271.344 0C273.691 0 275.824 0.255999 277.744 0.767998C278.658 0.986482 279.539 1.2512 280.388 1.56214C282.087 2.18443 282.896 4.04012 282.481 5.80123L281.446 10.1913C281.001 12.0802 278.871 12.965 276.976 12.544C275.824 12.288 274.693 12.16 273.584 12.16C270.981 12.16 268.848 12.8213 267.184 14.144C265.563 15.4667 264.752 17.728 264.752 20.928V30.72H277.392C279.601 30.72 281.392 32.5109 281.392 34.72V38.368C281.392 40.5771 279.601 42.368 277.392 42.368H264.752V94.08H250.736ZM242 42.368C239.791 42.368 238 40.5771 238 38.368V34.72C238 32.5109 239.791 30.72 242 30.72H252.592V42.368H242Z" fill="white"/>
+      <path d="M0 120.881V34.6407C0 32.4316 1.79086 30.6407 4 30.6407H8.672C10.8811 30.6407 12.672 32.4316 12.672 34.6407V39.5367C15.1893 36.3367 18.4107 33.734 22.336 31.7287C26.2613 29.7234 31.104 28.7207 36.864 28.7207C43.0507 28.7207 48.5333 30.1927 53.312 33.1367C58.1333 36.038 61.888 40.0274 64.576 45.1047C67.264 50.1394 68.608 55.878 68.608 62.3207C68.608 66.9714 67.84 71.3447 66.304 75.4407C64.768 79.494 62.5707 83.0567 59.712 86.1287C56.896 89.2007 53.5253 91.6114 49.6 93.3607C45.7173 95.0674 41.408 95.9207 36.672 95.9207C31.7227 95.9207 27.3707 95.0247 23.616 93.2327C19.8613 91.4407 16.6613 89.03 14.016 86.0007V120.881H0Z M34.304 83.4407C38.2293 83.4407 41.7067 82.5874 44.736 80.8807C47.808 79.1314 50.1973 76.678 51.904 73.5207C53.6533 70.3634 54.528 66.63 54.528 62.3207C54.528 58.0114 53.6533 54.278 51.904 51.1207C50.1547 47.9207 47.744 45.4674 44.672 43.7607C41.6427 42.054 38.1867 41.2007 34.304 41.2007C30.3787 41.2007 26.88 42.054 23.808 43.7607C20.7787 45.4674 18.3893 47.9207 16.64 51.1207C14.8907 54.278 14.016 58.0114 14.016 62.3207C14.016 66.63 14.8907 70.3634 16.64 73.5207C18.3893 76.678 20.7787 79.1314 23.808 80.8807C26.88 82.5874 30.3787 83.4407 34.304 83.4407Z" fill="white"/>
+      <path d="M74.6094 94.0647V34.7047C74.6094 32.4956 76.4002 30.7047 78.6094 30.7047H84.6894C86.8985 30.7047 88.6894 32.4956 88.6894 34.7047V39.4727C91.0787 35.5047 93.98 32.7314 97.3934 31.1527C100.807 29.5314 104.476 28.7207 108.401 28.7207C109.681 28.7207 110.897 28.7847 112.049 28.9127C113.961 29.1251 115.193 30.9336 114.949 32.8411L114.029 40.0406C113.763 42.1226 111.689 43.4549 109.617 43.1207C108.295 42.9074 106.972 42.8007 105.649 42.8007C100.743 42.8007 96.6894 44.3154 93.4894 47.3447C90.2894 50.3314 88.6894 54.406 88.6894 59.5687V94.0647H74.6094Z" fill="white"/>
+      <path d="M148.368 28C149.76 28 151.119 28.069 152.446 28.2051L152.436 28.2627C164.298 30.5441 170.719 35.9835 174.438 41.873C174.593 42.1456 174.753 42.4284 174.921 42.7207C175.259 43.3045 175.588 43.8897 175.905 44.4766C178.371 49.3916 179.279 54.3362 180.092 58.1133C180.094 58.1663 180.097 58.2193 180.099 58.2725H180.126C180.303 59.0882 180.473 59.8483 180.658 60.5391C181.708 64.4587 183 70.4174 186.184 75.0928C187.793 77.4559 189.906 79.5301 192.745 80.8721C194.398 81.6534 196.273 82.1722 198.402 82.3701C199.852 82.6542 201.368 82.7998 202.952 82.7998C206.877 82.7998 210.355 81.9467 213.384 80.2402C216.456 78.4909 218.867 76.0372 220.616 72.8799C222.365 69.7227 223.24 65.9897 223.24 61.6807C223.24 57.3714 222.365 53.6378 220.616 50.4805C218.867 47.2805 216.456 44.8268 213.384 43.1201C210.355 41.4137 206.877 40.5605 202.952 40.5605C199.027 40.5606 195.528 41.4135 192.456 43.1201C189.511 44.7793 187.173 47.1454 185.438 50.2158C184.641 46.4543 183.267 42.8762 181.309 39.499H181.308C180.786 38.592 180.231 37.7139 179.646 36.8652C182.454 34.3433 185.657 32.3108 189.256 30.7686C193.437 28.9766 198.025 28.0801 203.017 28.0801C209.63 28.0801 215.517 29.6167 220.68 32.6885C225.885 35.7178 229.96 39.7922 232.904 44.9121C235.848 49.9894 237.32 55.5793 237.32 61.6807C237.32 66.1605 236.466 70.4273 234.76 74.4805C233.096 78.5336 230.728 82.1179 227.656 85.2324C224.584 88.3469 220.957 90.7998 216.776 92.5918C212.595 94.3837 207.987 95.2803 202.952 95.2803C202.829 95.2803 202.705 95.2784 202.582 95.2773V95.2793C202.567 95.2787 202.553 95.277 202.538 95.2764C196.092 95.2143 190.321 93.7021 185.225 90.7363C184.715 90.433 184.198 90.0696 183.679 89.6621C181.424 88.1404 179.542 86.4012 177.967 84.5537C173.23 78.9974 171.335 72.5588 170.258 68.5391C169.976 67.4856 169.742 66.1556 169.495 64.7012C169.245 63.2299 168.977 61.602 168.622 59.8896C167.911 56.4607 166.866 52.768 165.003 49.5283C163.639 47.1565 161.84 45.0344 159.408 43.4336C159.188 43.2988 158.964 43.1666 158.736 43.04C155.707 41.3335 152.23 40.4805 148.305 40.4805C144.379 40.4805 140.881 41.3335 137.809 43.04C134.779 44.7467 132.39 47.2004 130.641 50.4004C128.934 53.5577 128.08 57.2913 128.08 61.6006C128.08 65.9096 128.955 69.6427 130.704 72.7998C132.453 75.957 134.843 78.4108 137.872 80.1602C140.944 81.8668 144.422 82.7207 148.305 82.7207C152.23 82.7207 155.707 81.8668 158.736 80.1602C161.176 78.7712 163.195 76.9368 164.801 74.6602C165.527 76.8089 166.402 78.976 167.484 81.0791H167.485C168.544 83.1524 169.77 85.089 171.157 86.8887C168.508 89.1924 165.499 91.0683 162.129 92.5127C157.948 94.3047 153.339 95.2002 148.305 95.2002C141.691 95.2002 135.782 93.6856 130.576 90.6562C125.414 87.5843 121.36 83.5098 118.416 78.4326C115.472 73.3127 114 67.7018 114 61.6006C114 57.0779 114.832 52.8105 116.496 48.7998C118.203 44.7466 120.592 41.1624 123.664 38.0479C126.779 34.9332 130.427 32.4805 134.608 30.6885C138.79 28.8965 143.376 28 148.368 28Z" fill="white"/>
+    </svg>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="hero-logo">
+    <svg width="200" height="86" viewBox="0 0 283 121" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M250.736 94.08V20.352C250.736 14.0373 252.549 9.06666 256.176 5.43999C259.845 1.81333 264.901 0 271.344 0C273.691 0 275.824 0.255999 277.744 0.767998C278.658 0.986482 279.539 1.2512 280.388 1.56214C282.087 2.18443 282.896 4.04012 282.481 5.80123L281.446 10.1913C281.001 12.0802 278.871 12.965 276.976 12.544C275.824 12.288 274.693 12.16 273.584 12.16C270.981 12.16 268.848 12.8213 267.184 14.144C265.563 15.4667 264.752 17.728 264.752 20.928V30.72H277.392C279.601 30.72 281.392 32.5109 281.392 34.72V38.368C281.392 40.5771 279.601 42.368 277.392 42.368H264.752V94.08H250.736ZM242 42.368C239.791 42.368 238 40.5771 238 38.368V34.72C238 32.5109 239.791 30.72 242 30.72H252.592V42.368H242Z" fill="white"/>
+      <path d="M0 120.881V34.6407C0 32.4316 1.79086 30.6407 4 30.6407H8.672C10.8811 30.6407 12.672 32.4316 12.672 34.6407V39.5367C15.1893 36.3367 18.4107 33.734 22.336 31.7287C26.2613 29.7234 31.104 28.7207 36.864 28.7207C43.0507 28.7207 48.5333 30.1927 53.312 33.1367C58.1333 36.038 61.888 40.0274 64.576 45.1047C67.264 50.1394 68.608 55.878 68.608 62.3207C68.608 66.9714 67.84 71.3447 66.304 75.4407C64.768 79.494 62.5707 83.0567 59.712 86.1287C56.896 89.2007 53.5253 91.6114 49.6 93.3607C45.7173 95.0674 41.408 95.9207 36.672 95.9207C31.7227 95.9207 27.3707 95.0247 23.616 93.2327C19.8613 91.4407 16.6613 89.03 14.016 86.0007V120.881H0Z M34.304 83.4407C38.2293 83.4407 41.7067 82.5874 44.736 80.8807C47.808 79.1314 50.1973 76.678 51.904 73.5207C53.6533 70.3634 54.528 66.63 54.528 62.3207C54.528 58.0114 53.6533 54.278 51.904 51.1207C50.1547 47.9207 47.744 45.4674 44.672 43.7607C41.6427 42.054 38.1867 41.2007 34.304 41.2007C30.3787 41.2007 26.88 42.054 23.808 43.7607C20.7787 45.4674 18.3893 47.9207 16.64 51.1207C14.8907 54.278 14.016 58.0114 14.016 62.3207C14.016 66.63 14.8907 70.3634 16.64 73.5207C18.3893 76.678 20.7787 79.1314 23.808 80.8807C26.88 82.5874 30.3787 83.4407 34.304 83.4407Z" fill="white"/>
+      <path d="M74.6094 94.0647V34.7047C74.6094 32.4956 76.4002 30.7047 78.6094 30.7047H84.6894C86.8985 30.7047 88.6894 32.4956 88.6894 34.7047V39.4727C91.0787 35.5047 93.98 32.7314 97.3934 31.1527C100.807 29.5314 104.476 28.7207 108.401 28.7207C109.681 28.7207 110.897 28.7847 112.049 28.9127C113.961 29.1251 115.193 30.9336 114.949 32.8411L114.029 40.0406C113.763 42.1226 111.689 43.4549 109.617 43.1207C108.295 42.9074 106.972 42.8007 105.649 42.8007C100.743 42.8007 96.6894 44.3154 93.4894 47.3447C90.2894 50.3314 88.6894 54.406 88.6894 59.5687V94.0647H74.6094Z" fill="white"/>
+      <path d="M148.368 28C149.76 28 151.119 28.069 152.446 28.2051L152.436 28.2627C164.298 30.5441 170.719 35.9835 174.438 41.873C174.593 42.1456 174.753 42.4284 174.921 42.7207C175.259 43.3045 175.588 43.8897 175.905 44.4766C178.371 49.3916 179.279 54.3362 180.092 58.1133C180.094 58.1663 180.097 58.2193 180.099 58.2725H180.126C180.303 59.0882 180.473 59.8483 180.658 60.5391C181.708 64.4587 183 70.4174 186.184 75.0928C187.793 77.4559 189.906 79.5301 192.745 80.8721C194.398 81.6534 196.273 82.1722 198.402 82.3701C199.852 82.6542 201.368 82.7998 202.952 82.7998C206.877 82.7998 210.355 81.9467 213.384 80.2402C216.456 78.4909 218.867 76.0372 220.616 72.8799C222.365 69.7227 223.24 65.9897 223.24 61.6807C223.24 57.3714 222.365 53.6378 220.616 50.4805C218.867 47.2805 216.456 44.8268 213.384 43.1201C210.355 41.4137 206.877 40.5605 202.952 40.5605C199.027 40.5606 195.528 41.4135 192.456 43.1201C189.511 44.7793 187.173 47.1454 185.438 50.2158C184.641 46.4543 183.267 42.8762 181.309 39.499H181.308C180.786 38.592 180.231 37.7139 179.646 36.8652C182.454 34.3433 185.657 32.3108 189.256 30.7686C193.437 28.9766 198.025 28.0801 203.017 28.0801C209.63 28.0801 215.517 29.6167 220.68 32.6885C225.885 35.7178 229.96 39.7922 232.904 44.9121C235.848 49.9894 237.32 55.5793 237.32 61.6807C237.32 66.1605 236.466 70.4273 234.76 74.4805C233.096 78.5336 230.728 82.1179 227.656 85.2324C224.584 88.3469 220.957 90.7998 216.776 92.5918C212.595 94.3837 207.987 95.2803 202.952 95.2803C202.829 95.2803 202.705 95.2784 202.582 95.2773V95.2793C202.567 95.2787 202.553 95.277 202.538 95.2764C196.092 95.2143 190.321 93.7021 185.225 90.7363C184.715 90.433 184.198 90.0696 183.679 89.6621C181.424 88.1404 179.542 86.4012 177.967 84.5537C173.23 78.9974 171.335 72.5588 170.258 68.5391C169.976 67.4856 169.742 66.1556 169.495 64.7012C169.245 63.2299 168.977 61.602 168.622 59.8896C167.911 56.4607 166.866 52.768 165.003 49.5283C163.639 47.1565 161.84 45.0344 159.408 43.4336C159.188 43.2988 158.964 43.1666 158.736 43.04C155.707 41.3335 152.23 40.4805 148.305 40.4805C144.379 40.4805 140.881 41.3335 137.809 43.04C134.779 44.7467 132.39 47.2004 130.641 50.4004C128.934 53.5577 128.08 57.2913 128.08 61.6006C128.08 65.9096 128.955 69.6427 130.704 72.7998C132.453 75.957 134.843 78.4108 137.872 80.1602C140.944 81.8668 144.422 82.7207 148.305 82.7207C152.23 82.7207 155.707 81.8668 158.736 80.1602C161.176 78.7712 163.195 76.9368 164.801 74.6602C165.527 76.8089 166.402 78.976 167.484 81.0791H167.485C168.544 83.1524 169.77 85.089 171.157 86.8887C168.508 89.1924 165.499 91.0683 162.129 92.5127C157.948 94.3047 153.339 95.2002 148.305 95.2002C141.691 95.2002 135.782 93.6856 130.576 90.6562C125.414 87.5843 121.36 83.5098 118.416 78.4326C115.472 73.3127 114 67.7018 114 61.6006C114 57.0779 114.832 52.8105 116.496 48.7998C118.203 44.7466 120.592 41.1624 123.664 38.0479C126.779 34.9332 130.427 32.4805 134.608 30.6885C138.79 28.8965 143.376 28 148.368 28Z" fill="white"/>
+    </svg>
+  </div>
+
+  <h1 class="hero-tagline">Dating, proven.</h1>
+  <p class="hero-sub">A new kind of dating app built around real compatibility — not just who looks good.</p>
+
+  <div class="pill">
+    <span class="pill-dot"></span>
+    Coming soon to iOS
+  </div>
+
+  <div class="notify-wrap">
+    <form class="notify-form" onsubmit="handleNotify(event)">
+      <input type="email" placeholder="Enter your email" id="notify-email" autocomplete="email" />
+      <button type="submit">Notify me</button>
+    </form>
+    <p class="notify-hint">No spam. Just a heads up when we launch.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Features -->
+<section class="features">
+  <p class="features-label">Why Proof</p>
+  <h2 class="features-title">Dating that actually works.</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C94F7C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+      <h3 class="feature-title">Built around compatibility</h3>
+      <p class="feature-body">Go beyond photos. Proof surfaces what actually matters for a real connection before you ever match.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C94F7C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <h3 class="feature-title">No time wasted</h3>
+      <p class="feature-body">Smart matching means fewer dead-end conversations and more time with people you actually want to meet.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C94F7C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <h3 class="feature-title">Safe by design</h3>
+      <p class="feature-body">Thoughtful moderation and privacy controls keep Proof a place people actually want to be.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2 class="cta-title">Be first to know.</h2>
+    <p class="cta-sub">We're putting the finishing touches on Proof. Drop your email and we'll let you know the moment it's ready.</p>
+    <form class="cta-form" onsubmit="handleNotify(event)">
+      <input type="email" placeholder="you@example.com" autocomplete="email" />
+      <button type="submit">Get early access</button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p class="footer-copy">© 2026 Proof Dating, Inc.</p>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="mailto:hello@proofdating.com">Contact</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+  const sb = supabase.createClient(
+    "https://ltnmcufyscpryaqzpfyw.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0bm1jdWZ5c2NwcnlhcXpwZnl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyNDgyMzYsImV4cCI6MjA4NzgyNDIzNn0.Ltq6_MENN18EzX5KpoUKRhyg6S8Jd5CJ4laNioYw82Q"
+  );
+
+  async function handleNotify(e) {
+    e.preventDefault();
+    const form = e.target;
+    const input = form.querySelector('input[type="email"]');
+    const btn = form.querySelector('button');
+    const email = input.value.trim();
+    if (!email) return;
+
+    btn.disabled = true;
+    btn.textContent = "Saving…";
+
+    const { error } = await sb.from("waitlist").insert({ email });
+
+    if (error && error.code !== "23505") {
+      // 23505 = unique violation (already signed up) — treat as success
+      btn.textContent = "Try again";
+      btn.disabled = false;
+      return;
+    }
+
+    btn.textContent = "You're on the list!";
+    input.disabled = true;
+  }
+</script>
+
+</body>
+</html>
