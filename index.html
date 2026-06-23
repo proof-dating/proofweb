@@ -452,6 +452,11 @@
       <span class="countdown-value" id="cd-minutes">00</span>
       <span class="countdown-label">Minutes</span>
     </div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-unit">
+      <span class="countdown-value" id="cd-seconds">00</span>
+      <span class="countdown-label">Seconds</span>
+    </div>
   </div>
 
   <div class="notify-wrap">
@@ -539,14 +544,16 @@
     const days    = totalDays % 30;
     const hours   = totalHours % 24;
     const minutes = totalMinutes % 60;
+    const seconds = Math.floor(diff / 1000) % 60;
     const pad = n => String(n).padStart(2, "0");
     document.getElementById("cd-months").textContent  = pad(months);
     document.getElementById("cd-days").textContent    = pad(days);
     document.getElementById("cd-hours").textContent   = pad(hours);
     document.getElementById("cd-minutes").textContent = pad(minutes);
+    document.getElementById("cd-seconds").textContent = pad(seconds);
   }
   updateCountdown();
-  setInterval(updateCountdown, 30000);
+  setInterval(updateCountdown, 1000);
 
   const sb = supabase.createClient(
     "https://ltnmcufyscpryaqzpfyw.supabase.co",
