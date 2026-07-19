@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support — Proof</title>
+  <meta name="description" content="Get help with Proof. Contact our support team." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: rgba(255,255,255,0.08);
+      --accent: #C94F7C;
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.45);
+      --input-bg: rgba(255,255,255,0.05);
+      --input-border: rgba(255,255,255,0.1);
+      --input-focus: rgba(201,79,124,0.4);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    nav {
+      padding: 24px 40px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    nav a.nav-back {
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    nav a.nav-back:hover { color: var(--text); }
+
+    main {
+      flex: 1;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 64px 24px 100px;
+      width: 100%;
+    }
+
+    .page-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .page-sub {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 48px;
+    }
+
+    /* Form */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.01em;
+    }
+    input, select, textarea {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+    input::placeholder, textarea::placeholder { color: var(--muted); }
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(201,79,124,0.5);
+      box-shadow: 0 0 0 3px var(--input-focus);
+    }
+    select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+    select option { background: #1a1a1a; color: #fff; }
+    textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #C94F7C, #8B1A31);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 28px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      align-self: flex-start;
+    }
+    .submit-btn:hover { opacity: 0.85; }
+    .submit-btn:disabled { opacity: 0.5; cursor: default; }
+
+    /* States */
+    .form-status {
+      font-size: 14px;
+      min-height: 20px;
+      color: var(--muted);
+    }
+    .form-status.success { color: #4ade80; }
+    .form-status.error   { color: #f87171; }
+
+    /* Success state */
+    .success-state {
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 40px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+    .success-state.visible { display: flex; }
+    .success-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .success-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .success-body {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* FAQ */
+    .faq {
+      margin-top: 72px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .faq-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+    .faq-item {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .faq-chevron {
+      flex-shrink: 0;
+      transition: transform 0.2s;
+      color: var(--muted);
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-a {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease, margin-top 0.25s;
+    }
+    .faq-item.open .faq-a { max-height: 200px; margin-top: 12px; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-copy { font-size: 13px; color: var(--muted); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      nav { padding: 20px 24px; }
+      h1 { font-size: 32px; }
+      .field-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">proof</a>
+  <a href="index.html" class="nav-back">← Back</a>
+</nav>
+
+<main>
+  <p class="page-eyebrow">Support</p>
+  <h1>How can we help?</h1>
+  <p class="page-sub">Send us a message and we'll get back to you within 24 hours.</p>
+
+  <div class="success-state" id="success-state">
+    <div class="success-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <div class="success-title">Message sent</div>
+    <p class="success-body">Thanks for reaching out. We'll get back to you at your email address within 24 hours.</p>
+  </div>
+
+  <form id="support-form" onsubmit="handleSubmit(event)">
+    <div class="field-row">
+      <div class="field-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Your name" required autocomplete="name" />
+      </div>
+      <div class="field-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" required autocomplete="email" />
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label for="topic">Topic</label>
+      <select id="topic" required>
+        <option value="" disabled selected>Select a topic</option>
+        <option value="account">Account issue</option>
+        <option value="bug">Bug report</option>
+        <option value="match">Matching or chat</option>
+        <option value="safety">Safety concern</option>
+        <option value="billing">Billing</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label for="message">Message</label>
+      <textarea id="message" placeholder="Describe your issue or question…" required></textarea>
+    </div>
+
+    <div class="form-status" id="form-status"></div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">Send message</button>
+  </form>
+
+  <!-- FAQ -->
+  <div class="faq">
+    <h2 class="faq-title">Common questions</h2>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        How do I delete my account?
+        <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">Go to Profile → Settings → Account → Delete Account. Your data will be permanently removed within 30 days.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        How does the rating system work?
+        <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">When someone views your profile, they can rate it. You'll see aggregated feedback on your profile page — not who gave which rating. Ratings help surface genuine profiles in discovery.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        How do I report someone?
+        <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">Tap the three-dot menu on any profile or in a chat to report or block. Reports are reviewed by our team. For urgent safety concerns, use the form above and select "Safety concern."</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        When is Proof available?
+        <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">Proof launches on iOS on August 1, 2026. Sign up on the home page to be notified the moment it's live.</div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p class="footer-copy">© 2026 Proof Dating, Inc.</p>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="support.html">Support</a>
+    <a href="mailto:hello@proofdating.com">Contact</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+  const sb = supabase.createClient(
+    "https://ltnmcufyscpryaqzpfyw.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0bm1jdWZ5c2NwcnlhcXpwZnl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyNDgyMzYsImV4cCI6MjA4NzgyNDIzNn0.Ltq6_MENN18EzX5KpoUKRhyg6S8Jd5CJ4laNioYw82Q"
+  );
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById("submit-btn");
+    const status = document.getElementById("form-status");
+
+    btn.disabled = true;
+    btn.textContent = "Sending…";
+    status.className = "form-status";
+    status.textContent = "";
+
+    const { error } = await sb.from("support_messages").insert({
+      name:    document.getElementById("name").value.trim(),
+      email:   document.getElementById("email").value.trim(),
+      topic:   document.getElementById("topic").value,
+      message: document.getElementById("message").value.trim(),
+    });
+
+    if (error) {
+      status.className = "form-status error";
+      status.textContent = "Something went wrong. Please try again or email us at hello@proofdating.com.";
+      btn.disabled = false;
+      btn.textContent = "Send message";
+      return;
+    }
+
+    document.getElementById("support-form").style.display = "none";
+    document.getElementById("success-state").classList.add("visible");
+  }
+
+  function toggleFaq(el) {
+    el.classList.toggle("open");
+  }
+</script>
+
+</body>
+</html>
